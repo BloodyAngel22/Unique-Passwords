@@ -26,8 +26,26 @@ unsigned char specialSymbol(){
 }
 
 unsigned char randomALL(){
-	int check = rand() % 2 + 1;
+	int check = rand() % 4 + 1;
 	// cout << check << " ALL  | ";
+	switch (check) {
+		case 1:
+			return randomSymbolLow();
+			break;
+		case 2:
+			return randomSymbolUp();
+			break;
+		case 3:
+			return specialSymbol();
+			break;
+		case 4:
+			return randomNumber();
+			break;
+	}
+}
+
+unsigned char randomSymbol(){
+	int check = rand() % 2 + 1;
 	switch (check) {
 		case 1:
 			return randomSymbolLow();
@@ -38,32 +56,30 @@ unsigned char randomALL(){
 	}
 }
 
-void storage(array<unsigned char, 24> password){
+void storage(array<unsigned char, 40> password, int length){
 	ofstream file;
 	file.open("secret_password.txt", ofstream::app);
 	if (!file.is_open())
 		cout << "Error. File doesn't open" << endl;
-	for (int i = 0; i < password.size(); i++)
+	for (int i = 0; i < length; i++)
 		file << password[i];
 	file << " - ";
 	file << "\n";
 }
 
-void mainProgramm(array<unsigned char, 24>& password){
-	for (int i = 0; i < password.size(); i++){
-		if ((i >= 0 and i <= 5) or (i >= 7 and i <= 12))
+void mainProgramm(array<unsigned char, 40>& password, int length){
+	for (int i = 0; i < length; i++){
+		if (i != 0)
 			password[i] = randomALL();
-		if (i >= 13 and i <= 21 or i == 23)
-			password[i] = randomNumber();
-		if (i == 6 or i == 13 or i == 22)
-			password[i] = specialSymbol();
+		else
+			password[i] = randomSymbol();
 	}
 
-	for (int i = 0; i < password.size(); i++){
+	for (int i = 0; i < length; i++){
 		cout << password[i];	
 	}
 	cout << endl;
 
-	storage(password);
+	storage(password, length);
 }
 
