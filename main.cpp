@@ -6,6 +6,8 @@ int main(){
 	do {
 	cout << "Enter password length" << endl;
 	cin >> length;
+	if (length < 6 or length > 40)
+	  cout << "Password length must be between 6 and 40 characters"  << endl;
 	} while(length < 6 or length > 40);
 
 	array<unsigned char, 40> password;
